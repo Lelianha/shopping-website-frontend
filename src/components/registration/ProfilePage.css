@@ -1,0 +1,75 @@
+.profile-container {
+    background-color: #fcfcfc;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 10px;
+    color: #4606e8;
+  }
+  
+  .login-signup {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .btn {
+    background-color: #AC28A4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .btn:hover {
+    background-color: #4606e8;
+  }
+  
+  .delete-btn {
+    background-color: #e84c4c;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c13030;
+  }
+  
+  .profile-content h2 {
+    color: #AC28A4;
+  }
+  
+  .profile-content p {
+    font-size: 18px;
+  }
+  
+  .list-container {
+    margin-top: 20px;
+  }
+  
+  .list-container h3 {
+    color: #4606e8;
+  }
+  
+  .list-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .list-container ul li {
+    background-color: #f9e7f8;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .arrow {
+    font-size: 24px;
+    color: #4606e8;
+    cursor: pointer;
+    text-align: right;
+  }
+  
+  .arrow:hover {
+    color: #AC28A4;
+  }
+  

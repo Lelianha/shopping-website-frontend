@@ -1,0 +1,24 @@
+#cartEmpty{
+    font-size:800%;
+    color: gray;
+text-align: center;    
+}
+#temp{
+margin-left: 120px;
+font-size: xx-large;}
+
+.shopButton{
+    border: 3px solid #4606e8;
+    font-size: larger;
+    border-radius: 20px;
+    padding: 12px;
+    background-color: #4606e8;
+    color: #fcfcfc;
+    margin-top: 50px;
+    width: 120px;
+    height: 50px;
+  }
+  .shopLink{
+    height: 0%;
+    width: 0%;
+  }

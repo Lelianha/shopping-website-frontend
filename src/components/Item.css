@@ -1,0 +1,58 @@
+.item{
+    margin:10px;
+    padding-right: 30px;
+    padding-top: 50px;
+    padding-left: 30px;
+    padding-bottom: 50px;
+    margin-bottom: 450px;
+} 
+
+.itemPicture{
+    width: 250px;
+    height: 300px;
+    float: left;
+    padding: 5px;
+}
+
+.itemWithDetails{
+    margin:10px;
+    padding-right: 30px;
+    padding-top: 50px;
+    padding-left: 30px;
+    padding-bottom: 50px; 
+}
+
+.restDiv{
+    margin-left: 10px;
+} 
+
+#inStock{
+    color:#009E60;
+}
+
+#outOfStock{
+    color:#EE4B2B;
+}
+
+.likeIcon{
+    margin-left: 170px;
+    size: 100px;
+    margin-bottom: 10px;
+    font-size: x-large;
+}
+
+.availableCartIcon{
+    margin-left: 210px;
+    margin-bottom: 10px;
+    font-size: xx-large;
+}
+
+.unavailableCartIcon{
+    margin-left: 210px;
+    margin-bottom: 10px;
+    font-size: xx-large;
+    color: gray;
+}
+
+
+  

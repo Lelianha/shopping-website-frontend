@@ -1,0 +1,72 @@
+footer {
+  margin-top: 150px;
+    background-color: #fcfcfc;
+    color: rgba(0, 0, 0);
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 2rem;
+    padding: 0 1rem;
+    height: 250px;
+}
+
+ .slogan{
+  color:#4606e8 ;
+  font-size: large;
+ }
+
+.symbol{
+
+    /* width:170px;
+    height: 160px; */
+    width:100px;
+    height: 90px;
+}
+ .slo{
+  color:#AC28A4 ;
+  font-size: large;
+ }
+ .email{
+  margin-left: 25px;
+ }
+
+.aa{
+  border:3px solid #AC28A4;
+  border-radius: 30px;
+  color: #AC28A4;
+  size: xx-large;
+  padding: 7px;
+
+}
+.find{
+  margin-top: 30px;
+  color: #000;
+}
+.contact{
+  margin-right: 200px;
+  margin-top: 30px;
+  color: #000;
+}
+.findIcons{
+  margin-left:35px ;
+}
+#twitterIcon{
+  color:#1D9BF0;
+}
+#linkedInIcon{
+  color:#0077B7;
+}
+#facebookIcon{
+  color:#3B5999;
+}
+
+ #instagramIcon {
+
+background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+border-radius: 20px;
+color:#fcfcfc;
+border:1px solid #fcfcfc;
+}
+    .about{
+margin-left: 150px;    }
+    
