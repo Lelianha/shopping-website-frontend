@@ -188,7 +188,7 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+.dataItem:hover {
   background-color: lightgrey;
 }
 

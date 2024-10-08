@@ -1,4 +1,3 @@
-
 import React from "react";
 import  "./FavoriteItems.css";
 import { useState , useEffect } from "react";
@@ -16,7 +15,6 @@ function FavoriteItems () {
 
         getAllUserItems(userItemsBody).then(
             res => {
-                console.log(res)
                 const favorites = res.data.map((userItem) => {
                         return (
                      <FavoriteItem item={userItem} />
@@ -33,10 +31,11 @@ function FavoriteItems () {
 
     return (
         <>
+        <br></br>
          <h2 id="favTitle">  Favorite List</h2>
 
             {existingFavoriteItems.length==0?<>
-             <h1 id="favText" class="empty"> Your favorites list has no items <  TbMoodEmpty /> </h1></>
+             <h1 id="favText" class="empty"> Your favorites list has no items! </h1></>
              : <div class="ItemsInRow" >{existingFavoriteItems} </div>
              }
 
@@ -46,3 +45,4 @@ function FavoriteItems () {
 
 
 export default FavoriteItems;
+

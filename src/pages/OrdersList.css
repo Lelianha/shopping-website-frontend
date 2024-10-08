@@ -1,0 +1,66 @@
+.orderListPage {
+  background-color: #fcfcfc; /* Light background */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.close {
+  text-align: center;
+  color: #4606e8; /* Primary color */
+  margin-bottom: 20px;
+}
+
+.orders-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(300px, 1fr)); /* Adjusts to fit at least 300px width */
+  gap: 5px; /* Reduced gap between cards */
+  padding: 10px; /* Optional: Add some padding around the grid */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.order-card {
+  background-color: white; /* Card background */
+  border: 1px solid #AC28A4; /* Card border color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Card shadow */
+  transition: transform 0.3s; /* Animation on hover */
+  width: 300px; /* Fixed width for cards */
+  box-sizing: border-box; /* Include padding and border in the element's total width */
+  height: 250px;
+  margin: 3px;
+}
+
+.order-card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+}
+
+.order-card h2 {
+  color: #AC28A4; /* Title color */
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.order-card p {
+  margin: 5px 0; /* Margin for paragraphs */
+}
+.view-details {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 12px;
+  color: #AC28A4; /* Text color */
+  border-radius: 5px; /* Rounded corners */
+  text-decoration: none; /* Remove underline */
+  transition: background-color 0.3s;
+}
+
+.no-orders {
+  text-align: center; /* Center the text */
+  color: #4606e8; /* Text color */
+  font-size: 1.5em; /* Font size */
+  margin: 20px 0; /* Margin for spacing */
+  padding: 10px; /* Padding around the text */
+  border-radius: 8px; /* Rounded corners */
+
+}

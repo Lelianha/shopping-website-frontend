@@ -98,7 +98,6 @@ else if(props.tempOrder.shippingAddress=="No Address")
 
     }
     deleteAllOrderItems(orderIttemsToDelete);
-    console.log(orderIttemsToDelete);
 
   }
 
@@ -109,7 +108,6 @@ else if(props.tempOrder.shippingAddress=="No Address")
       id: props.tempOrder.id
     }
     deleteOrder(orderToDelete);
-    console.log(orderToDelete);
 
   }
 

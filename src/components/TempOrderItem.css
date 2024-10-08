@@ -1,54 +1,112 @@
-.item{
-    margin:10px;
-    padding-right: 30px;
-    padding-left: 30px;
-    padding-bottom: 50px;
-    margin-bottom: 450px;
-} 
+.item {
+    margin: 10px;
+    padding: 20px 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-.itemPicture{
-    width: 200px;
-    height: 250px;
+.item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.itemPicture {
+    width: 150px;
+    height: 200px;
     float: left;
-    padding: 5px;
+    margin-right: 20px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
-.itemWithDetails{
-    padding-right: 30px;
-    padding-left: 30px;
+.itemWithDetails {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
 }
 
-.restDiv{
-    margin-left: 10px;
-} 
-
-#inStock{
-    color:#009E60;
+.restDiv {
+    margin-left: 20px;
+    max-width: 300px;
 }
 
-#outOfStock{
-    color:#EE4B2B;
+#inStock {
+    color: #28a745;
+    font-weight: bold;
 }
 
-.likeIcon{
-    margin-left: 170px;
-    size: 100px;
-    margin-bottom: 10px;
-    font-size: x-large;
+#outOfStock {
+    color: #dc3545;
+    font-weight: bold;
 }
 
-.availableCartIcon{
-    margin-left: 210px;
-    margin-bottom: 10px;
-    font-size: xx-large;
+.likeIcon {
+    cursor: pointer;
+    font-size: 24px;
+    color: #ff4d4d;
+    transition: color 0.3s ease;
 }
 
-.unavailableCartIcon{
-    margin-left: 210px;
-    margin-bottom: 10px;
-    font-size: xx-large;
+.likeIcon:hover {
+    color: #ff0000;
+}
+
+.availableCartIcon {
+    font-size: 28px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.unavailableCartIcon {
+    font-size: 28px;
     color: gray;
+    margin-top: 10px;
 }
 
 
-  
+.cartIcon:hover {
+    transform: scale(1.2);
+}
+.quantityContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.quantityLabel {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.quantityValue {
+    margin: 0 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.heartIcon {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 28px; /* Adjust size for better visibility */
+    margin-left: 280px;
+}
+
+
+.cartIconM {
+    display: inline-block;
+    margin-left: 200px; /* Adjust margin for a tighter layout */
+    cursor: pointer;
+    font-size: 24px; /* Ensure icons are of a consistent size */
+    transition: transform 0.2s ease; /* Animation for hover */
+}
+.cartIconP {
+    display: inline-block;
+    margin-left: 150px; /* Adjust margin for a tighter layout */
+    cursor: pointer;
+    font-size: 24px; /* Ensure icons are of a consistent size */
+    transition: transform 0.2s ease; /* Animation for hover */
+}
+
+

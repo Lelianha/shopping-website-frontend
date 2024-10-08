@@ -61,7 +61,6 @@ function Login() {
                 active:1
             };
             updateUser(userSecondBody);
-            console.log("wwwww"+userSecondBody)
 
             setSuccess(true);
             setAuth(response.data.jwt)

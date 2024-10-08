@@ -1,131 +1,70 @@
-import React, { useState, useEffect } from "react";
-import classes from "./Item.css";
-import { FaHeart, FaRegHeart } from "react-icons/fa"
+import React, { useState } from "react";
+import { FaRegHeart } from "react-icons/fa";
 import { AiOutlineShopping, AiFillShopping } from "react-icons/ai";
-import { getAllItems, updateItem , createOrder, getAllOrders ,updateOrderItemQuantity, updateOrder , getAllUsers, getAllUserItems, deleteUserItem ,getQantity, createUserItem,createOrderItems,createOrderItem,updateItemQuantity} from "../services/api";
+import { useNavigate } from "react-router-dom";  // For navigation
+import classes from "./TempItem.css";
 
 function Item(props) {
-      
-    const [isHeart, setIsHeart] = useState(false)
-    const [showDetails,setShowDetails]=useState(false)
+  const [showDetails, setShowDetails] = useState(false);
 
-    useEffect(() => {
+  const navigate = useNavigate();  // To navigate between pages
 
-        if(props.favorites.includes(props.item.id))
-            {
-             setIsHeart(true)
-             }
-    
-   });
 
-   const addItemToFavorite=()=>{ 
-    const UserItemsToCreate = {
-        userId: JSON.parse(sessionStorage.getItem("id")),
-        userItemId:props.item.id
+
+
+
+
+  // Function to show the alert with log in / sign up option
+  const logAlert = () => {
+    const userResponse = window.confirm(
+      'You need to log in or sign up to purchase items. Do you want to log in or sign up now?'
+    );
+    if (userResponse) {
+      // Redirect the user to the login page (or signup page based on their choice)
+      navigate("/login");  // Navigate to the login page
     }
+  };
 
-    if (JSON.parse(sessionStorage.getItem("isActive"))==true){
-        createUserItem(UserItemsToCreate)
-        console.log(UserItemsToCreate)
-        }
-    }
+  const unavailableAlert = () => {
+    alert("This item is out of stock.");
+  };
 
-    const removeItemFromFavorite=()=>{ 
-    const UserItemToDelete = {
-        userId: JSON.parse(sessionStorage.getItem("id")),
-        itemId: props.item.id
-    }
-
-    if (JSON.parse(sessionStorage.getItem("isActive"))==true){
-        deleteUserItem(UserItemToDelete)
-    }
-    }
-
-    const changeHeart = () =>{
-        setIsHeart(!isHeart);
-
-        if (isHeart==false) {
-            addItemToFavorite();
-        }
-
-    else{
-        removeItemFromFavorite();
-        }
-    }
-
-    const showItemDetails = () =>{
-    setShowDetails(!showDetails);
-    }
-
-    const buyItem=()=>{ 
-        const orderItemToCreate = {
-            userId:JSON.parse(sessionStorage.getItem("id")),
-            orderItemId:props.item.id
-        }
-
-        if (JSON.parse(sessionStorage.getItem("isActive"))==true){
-        createOrderItem(orderItemToCreate);
-        }
-    }
-
-
-    return (
-       <div>{showDetails?
-          <div key={props.item.id} className="item" onMouseMove={()=>showItemDetails()} >
-            <img  className="itemPicture" src={props.item.pictureUrl}  ></img>
-           </div>
-            :
-            <div key={props.item.id} className="itemWithDetails" onMouseLeave={()=>showItemDetails()}>
-            <img  className="itemPicture" src={props.item.pictureUrl}  ></img>
-            <div className="restDiv"  >
-             <div> {props.item.title} </div> 
-             <br></br>
-             <div> ${props.item.price}  </div> 
-        <br></br>
-        <div>{props.item.inStock>0?<div id="inStock"> {props.item.inStock} In Stock </div>:        
-        <div id="outOfStock"> {props.item.inStock} Items Left In Stock </div>}
-</div>
-         <div onClick={changeHeart}> {isHeart?<FaHeart  className="likeIcon"/>:
-         <FaRegHeart  className="likeIcon"/> }</div>
-
-<div>{props.item.inStock>0?
-              <div onClick={buyItem}> 
-              <AiOutlineShopping  className="availableCartIcon"/></div>:
-               <div > 
-               <AiFillShopping  className="unavailableCartIcon"/></div>
-              }
-</div>
-      
-         </div>
-         </div>
-    }
-   
-     </div>     ) 
- 
-
-
-    // return(<>
-    // <div key={props.item.id} class="imgdiv" >
-    //     <img class="image" src={props.item.pictureUrl}></img> 
-    //     <div> {props.item.title} </div>
-    //  <br></br><div className="tPrice"> {props.item.price} USD </div>
-    //                     <br></br><div> {props.item.inStock} In Stock </div> <br></br><br></br><br></br>
-    //                   {/* <span> <label class="labelQuantity">Quantity :</label>  */}
-    //                   {/* <input  required key={props.item.id} class="inputQuantity" type="number"
-    //                   value={enteredQuantity}
-    //                   onChange={quantityChangeHandler}
-    //                  >
-    //            </input> */}
-    //                   {/* </span> */}       
-    //                   {/* <span class="quantityNum">  {props.arrOfOrderItems.quantity} Quantiny </span>  */}
-
-    //                     {/* <div class="quantityNum" onChange={quantity(props.item.id,JSON.parse(sessionStorage.getItem("username")))}> Quantiny </div>  */}
-    //                     <span class="heartIcon"  onClick={changeHeart}> {isHeart ? <FaHeart /> : <FaRegHeart />} </span>
-
-    //                     {/* <span class="cartIcon"onClick={changeCart} >{inCart ? <BsCartDash /> : <BsCartPlus />}</span>   */}
-    //                     <span class="cartIcon"onClick={buyItem} > <BsCartPlus /></span>  
-                        
-    //                     </div>
-    // </>)
+  return (
+     <div
+      className={`item-container ${showDetails ? "show-details" : ""}`}
+      onMouseEnter={() => setShowDetails(true)}
+      onMouseLeave={() => setShowDetails(false)}
+    >
+      <img className="itemPicture" src={props.item.pictureUrl} alt={props.item.title} />
+      {showDetails && (
+        <div className="details">
+          <div className="restDiv">
+            <h3>{props.item.title}</h3>
+            <p>${props.item.price}</p>
+            {props.item.inStock > 0 ? (
+              <p id="inStock">{props.item.inStock} In Stock</p>
+            ) : (
+              <p id="outOfStock">Out of Stock</p>
+            )}
+            <div className="icons">
+              <span onClick={logAlert}>
+                 <FaRegHeart className="likeIcon" /> 
+              </span>
+              {props.item.inStock > 0 ? (
+                <span onClick={logAlert}>
+                  <AiOutlineShopping className="availableCartIcon" />
+                </span>
+              ) : (
+                <span onClick={unavailableAlert}>
+                  <AiFillShopping className="unavailableCartIcon" />
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
+
 export default Item;

@@ -1,205 +1,175 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { getAllOrders, getAllUserItems,getAllOrderIds,getAllOrderItems} from "../services/api";
-import TempOrder from "../components/TempOrder";
-import  "./Cart.css";
-import {Link , useMatch , useResolvedPath} from "react-router-dom";
-
+import React, { useState, useEffect } from "react";
+import {
+  getTempOrder,
+  getAllOrderItems,
+  getAllUserItems,
+  deleteAllOrderItems,
+  deleteOrder,
+  updateOrderStatus,
+  updateOrderShippingAddress,
+} from "../services/api";
+import Checkout from "../pages/Checkout"; // Import the new popup component
+import "./Cart.css";
+import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import { AiOutlineShopping } from "react-icons/ai";
+import TempOrderItem from "../components/TempOrderItem";
 
 function Cart() {
-      
-    const [tempOrders, setTempOrders] = useState([]);
-    const [existingItems, setExistingItems] = useState([]);
-    const [currentItems, setCurrentItems] = useState([]);
-    const [orderIds, setOrderIds] = useState([]);
+  const [tempOrder, setTempOrder] = useState(null); // to store the TEMP order
+  const [currentItems, setCurrentItems] = useState([]); // to store order items
+  const [existingItems, setExistingItems] = useState([]); // to store user's existing items
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // State to manage popup visibility
+  const userId = JSON.parse(sessionStorage.getItem("id")); // get user ID from session
+  const isActive = JSON.parse(sessionStorage.getItem("isActive")); // get user activity status from session
 
-    let bUserName = sessionStorage.getItem("username")
-    let nUserName;
-    if(sessionStorage.getItem("username")){
-        nUserName = bUserName.replace(/"/g, "'");
-    }
-   
-      const userItemsBody ={
-        userId: JSON.parse(sessionStorage.getItem("id"))
-     }
+  const userItemsBody = {
+    userId: userId,
+  };
 
-      useEffect(() => {
-        getAllOrders()
-          .then((res) => {
-            const resTempOrders = res.data.filter((order) => order.status === "TEMP"&& order.userId==JSON.parse(sessionStorage.getItem("id"))&&JSON.parse(sessionStorage.getItem("isActive")));
-            return { 
-              resTempOrders, 
-              orderIdsPromise: getAllOrderIds() 
-            };
-          })
-      
-          .then(({ resTempOrders, orderIdsPromise }) => {
-            return orderIdsPromise.then((orderIdsRes) => {
-              const arrOrderIds = orderIdsRes.data;
-              
-              const itemPromises = arrOrderIds.map((orderId) => 
-                getAllOrderItems(orderId).then((res) => 
-                  res.data.map((item) => ({ 
-                    ...item, 
-                    liked: false, 
-                    cart: false 
-                  }))
-                )
-              );
-      
-              return Promise.all(itemPromises).then((resItems) => {
-                setCurrentItems(resItems);
-                setTempOrders(resTempOrders);
-                setOrderIds(arrOrderIds);
-      
-                return getAllUserItems(userItemsBody);
-              });
-            });
-          })
-          .then((userItemsRes) => {
-            const favorites = userItemsRes.data.map((userItem) => userItem.id);
-            setExistingItems(favorites);
-          })
-          .catch((err) => console.error("An error occurred", err));
-
-      }, [tempOrders]);
-
-//     useEffect(() => {
-//     let resTempOrders = [];
-//     let arrOrderIds=[];
-//     let resItems = [];
-
-//         getAllOrders().then((res) => {
-
-//               res.data.map(order => {
-
-//                 if (order.status == "TEMP") {
-//                   const temp = {
-//                     id:order.id,
-//                     userId:order.userId,
-//                     orderDate:order.orderDate,
-//                     shippingAddress:order.shippingAddress,
-//                     totalPrice:order.totalPrice,
-//                     status:order.status
-//                                 };
-//                     resTempOrders.push(temp);
-              
-//                 }
-
-//               });
-//               // setTempOrders(resTempOrders);
-
-//               getAllOrderIds().then(
-
-//                 res => {
-
-//                    arrOrderIds = res.data.map(orderId => {
-//                     return orderId;
-                    
-//                   }
-//                   )
-//                   // setOrderIds(arrOrderIds);
-
-//                 // console.log(arrOrderIds)
-
-//                 }
-//                 )
-
-//                 for(let i=0; i<arrOrderIds.length ; i++){
-//                   getAllOrderItems(arrOrderIds[i]).then(
-//                   res => {
-//                 //  console.log("The iiiiiiiiiiiiiii is"+` ${JSON.stringify(i)}`);
-
-//                 let arrOfItems = [];
-//                       res.data.map((orderItems) => {
-//                           const temp = {
-//                               id: orderItems.id,
-//                               title: orderItems.title,
-//                               price: orderItems.price,
-//                               quantity: orderItems.quantity,
-//                               inStock: orderItems.inStock,
-//                               pictureUrl: orderItems.pictureUrl,
-//                               liked: false,
-//                               cart: false
-//                           };
-//                               arrOfItems.push(temp);
-                              
-                             
-//                       });
-//                       resItems.push(arrOfItems);
-//                       // setCurrentItems(resItems);
-//                       console.log(resItems);
-              
-//                   }
-        
-//             );
-//                 }
-// let favorites=[]
-//                getAllUserItems(userItemsBody).then(
-//                res => {        
-//                favorites = res.data.map(userItems => {
-//               return (
-//                userItems.id
-//                 )
-                                  
-//                 }
-//               )
-//               setExistingItems(favorites);
-      
-//                }
-//               )
-              
-          
-
-
-//             })
-//             setTempOrders(resTempOrders);
-//             setOrderIds(arrOrderIds);
-//             setCurrentItems(resItems);
-
-//         }, []);
-       
-        // console.log(orderIds)
-
-    return(
-
-// order                  
-
- <>
-          {tempOrders.length==0? <>
-            <br></br><br></br><br></br><br></br><br></br><br></br>
-          {/* <h1 id="temp"> CART</h1> */}
-          <h1 id="cartEmpty"><AiOutlineShopping /></h1><br></br><br></br><br></br><br></br><br></br><br></br>
-          <h3 id="temp" style={{textAlign: "center"}}> YOUR CART IS EMPTY</h3> 
-          <Link to="/shop" className="shopLink" ><button className="shopButton">Shop Now</button></Link> </>:         <h1 id="temp">CART</h1>
-
-}
-    {tempOrders.map((tO,index) =>
-   
-  <>
-       <TempOrder key={tO} tempOrder={tO}
-        // arrOfItems={currentItems[index]===undefined ? null : currentItems[index]}
-        arrOfItems={currentItems[tempOrders[index].id-1]===undefined ? null : currentItems[tempOrders[index].id-1]}
-
-        favorites={existingItems}
-        /> 
-    </>
-    )
-}
-</>
-    )
-    
-}function CustomLink({to , children , ...props}){
-    const resolvedPath=useResolvedPath(to)
-    const isActive=useMatch({path:resolvedPath.pathname , end:true});
+  useEffect(() => {
+    if (isActive) {
+      // Fetch the TEMP order
+      getTempOrder(userId)
+        .then((res) => {
+          const tempOrder = res.data;
+          setTempOrder(
+            tempOrder && typeof tempOrder === "object" && Object.keys(tempOrder).length > 0 
+              ? tempOrder 
+              : null
+          );
   
-    return(
-      <li className={isActive ? "active" : ""}>
-        <Link to={to} {...props}> 
+          // Fetch the items for the TEMP order if it exists
+          if (tempOrder && tempOrder.id) {
+            return getAllOrderItems(tempOrder.id);
+          } else {
+            // Return an empty array if there is no TEMP order
+            return Promise.resolve({ data: [] });
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          const orderItems = res.data.map((item) => (
+            <TempOrderItem key={item.id} item={item} favorites={existingItems} tempOrder={tempOrder} />
+          ));
+          setCurrentItems(orderItems); // Set the items for the TEMP order
+        
+          // Fetch user's existing items (e.g., favorite or previously ordered items)
+          return getAllUserItems(userItemsBody);
+        })
+        .then((res) => {
+          const favorites = res.data.map((userItem) => userItem.id);
+          setExistingItems(favorites); // Set user's existing items
+        })
+        .catch((err) => console.error("An error occurred", err));
+    }
+  }, [userId, isActive,currentItems]);
+  
+  
+  // Function to handle the checkout process
+  const handleCheckout = () => {
+    if (tempOrder) {
+      setIsPopupOpen(true); // Open the popup
+    }
+  };
+
+  // Function to confirm the order and update the status
+  const confirmOrder = (shippingAddress) => {
+    const orderShippingAddress = { shippingAddress };
+
+    // Update order shipping address
+    updateOrderShippingAddress(tempOrder.id, orderShippingAddress)
+      .then(() => {
+        // After updating the shipping address, change the order status to CLOSE
+        return updateOrderStatus(tempOrder.id);
+      })
+      .then(() => {
+        // Close the popup after confirming the order
+        setIsPopupOpen(false);
+      })
+      .catch((error) => {
+        console.error("Error updating order:", error);
+        alert("Failed to confirm order. Please try again.");
+      });
+  };
+
+  // Function to delete the entire order
+// Function to delete the entire order
+const orderDelete = () => {
+  const orderToDelete = { id: tempOrder.id };
+  deleteOrder(orderToDelete)
+    .then(() => {
+      // After successfully deleting the order, update the state
+      setTempOrder(null); // Set the TEMP order to null
+      setCurrentItems([]); // Clear the current items
+    })
+    .catch((error) => {
+      console.error("Error deleting order:", error);
+      alert("Failed to delete order. Please try again.");
+    });
+};
+
+
+  return (
+    <>
+      {/* Check if there are no TEMP orders */}
+      {tempOrder === null ? (
+        <>
+        <br/>
+         <br/>
+         <br/>
+          <br/>
+          <br/>
+         <br/>
+         <br/>
+          <br/>
+          <h3 id="temp" style={{ textAlign: "center" }}>YOUR CART IS EMPTY</h3>
+          <h1 id="cartEmpty"><AiOutlineShopping /></h1>
+          <br/>
+          <br/>
+          <Link to="/shop" className="shopLink">
+            <button className="shopButton">Shop Now</button>
+          </Link>
+        </>
+      ) : (
+        <>
+          <h1 id="temp">CART</h1>
+          <div key={tempOrder.id} className="orderDiv" id="order">
+            <div className="OrderItemsInRow">
+              <ul>
+                {currentItems}
+              </ul>
+            </div>
+            <span className="orderDetails">
+              <label className="orderLabel">Total Price: {(tempOrder.totalPrice).toFixed(2)} USD</label>
+              <span className="paymentButton" onClick={handleCheckout}>CheckOut</span>
+              <span className="deleteButton" onClick={orderDelete}>DELETE ORDER</span>
+            </span>
+          </div>
+        </>
+      )}
+      {/* Render the CheckoutPopup component */}
+      <Checkout
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)} // Close popup function
+        totalPrice={tempOrder ? tempOrder.totalPrice : 0}
+        itemCount={tempOrder && tempOrder.numberOfItems ? tempOrder.numberOfItems : 0}
+        onConfirm={confirmOrder} // Pass the confirm function to the popup
+      />
+    </>
+  );
+}
+
+function CustomLink({ to, children, ...props }) {
+  const resolvedPath = useResolvedPath(to);
+  const isActive = useMatch({ path: resolvedPath.pathname, end: true });
+
+  return (
+    <li className={isActive ? "active" : ""}>
+      <Link to={to} {...props}>
         {children}
-        </Link>
-      </li>
-    )
-  }
+      </Link>
+    </li>
+  );
+}
+
 export default Cart;

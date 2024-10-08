@@ -1,0 +1,53 @@
+.item-card {
+    display: flex;
+    align-items: center; /* Align image and text vertically */
+    justify-content: flex-start; /* Ensure items stay on the left */
+    margin: 15px 0; /* Add vertical margin between items */
+    padding: 20px;
+    background-color: #fcfcfc; /* Light background color */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width:500px;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.itemPicture {
+    width: 150px;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-right: 20px; /* Add space between image and text */
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #333; /* Darker color for readability */
+}
+
+.item-details h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px; /* Add spacing below title */
+    font-weight: 600;
+}
+
+.item-details p {
+    font-size: 1rem;
+    color: #666; /* Lighter text for price and quantity */
+    margin-bottom: 5px; /* Spacing between price and quantity */
+}
+
+.item-details .price {
+    color: #AC28A4; /* LuxeBags secondary color for price */
+    font-weight: bold;
+}
+
+.item-details .quantity {
+    font-weight: bold;
+}

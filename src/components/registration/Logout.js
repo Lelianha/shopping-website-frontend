@@ -1,6 +1,7 @@
+
 import React, { useRef, useState, useEffect, Fragment, useContext } from "react";
 import classes from "./Logout.css";
-import { authenticate, updateUserActive } from "../../services/api";
+import { authenticate, updateUserActive,userLogOut} from "../../services/api";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 
@@ -10,15 +11,14 @@ function Logout() {
   // const handleSubmit = async (e) => {
   //     e.preventDefault();
   // var loggedInUserName = JSON.parse(localStorage.getItem("username"))
-  var loggedInUserName = JSON.parse(sessionStorage.getItem("username"))
+  var loggedInUserId = JSON.parse(sessionStorage.getItem("id"))
 
   const userSecondBody = {
-    username: loggedInUserName,
+    uesrId: loggedInUserId,
     active: 0
   };
 
-
-  updateUserActive(userSecondBody);
+  userLogOut(userSecondBody);
 
 
 

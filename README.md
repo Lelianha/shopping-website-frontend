@@ -1,12 +1,8 @@
-<a name="readme-top"></a>
-
-<br>
-
 <div align="center" >
-  <img src="./images/Logo-README.png" alt="Logo" width="140" height="80">
-  <h3 align="center"  >Luxe Bags Shopping Website</h3 >
-</div>
+    <img src="./src/images/Logo-README.png" alt="Logo" width="140" height="80">
 
+  <h3 align="center"  ><a id="readme-top"> Luxe Bags Shopping Website</a></h3 >
+</div>
 <br>
 
 <details>
@@ -31,16 +27,12 @@
   </ol>
 </details>
 
-## About The Project <img src="./images/bagIcon.png" width="30" height="30" />
+## About The Project <img src="./src/images/bagIcon.png" width="30" height="30" />
 
-[![Product Name Screen Shot][product-screenshot]]
 
-Handbags are a part of women's accessories that provides different ways to style themselves and make them look the most
-gorgeous lady,<br>
-a proper handbag will add more charm and glamour to a female’s personality.<br>
-Handbags come in different colors and styles so each woman can select any of them based on the occasion, dress, and
-style,<br>
-and on our website, all bags match everyone's mood because LuxeBags were created with every woman's mood in mind.<br>
+Handbags are essential accessories for women, adding both style and charm.
+LuxeBags was created with every woman's mood in mind,
+offering a diverse selection to match any occasion, outfit, or personal taste
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -48,13 +40,19 @@ and on our website, all bags match everyone's mood because LuxeBags were created
 ### Built With
 
 [![React][Reactjs.com]][reactjs-url]
-![JavaScript][javascript.com]
-
 
 React is a declarative, efficient, and flexible JavaScript library for building user interfaces,
 it developed a new way of rendering websites, evolving the responsive nature of web pages, also it is mainly used in front-end development.
 It lets you compose complex UIs from small and isolated pieces of code called “components”,
 the concept in React is React components, and each component can help us reuse our code and better manage our project.
+
+![JavaScript][javascript.com]
+
+Javascript is one of the most popular programming languages in the world,
+it is widely used all over the world for both frontend and backend development (in this project we used it for the frontend).
+However, JavaScript supports dynamic typing which means the types of the
+variables we create are defined only at runtime based on the stored value, also Javascript is not relying on any platform to execute the code,
+which means that once we write our script it can be run anywhere and anytime.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -64,7 +62,7 @@ the concept in React is React components, and each component can help us reuse o
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these steps.
 
 ### Prerequisites
 
@@ -77,6 +75,7 @@ List of things you need to use to run the project and the way to install each of
 2. Download the Visual Studio Code
 
 [![Visual Studio Code][visualstudio.com]][visualstudio-url]
+
 3. To view the updates open the browser on your [localhost][localhost-url]
 
 ### Installation

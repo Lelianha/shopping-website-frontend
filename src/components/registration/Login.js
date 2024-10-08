@@ -1,7 +1,8 @@
+
 import React, { useRef, useState, useEffect, Fragment, useContext } from "react";
 import classes from "./Login.module.css";
 import { authenticate, updateUserActive,getUserId } from "../../services/api";
-import { Link } from "react-router-dom";
+import { Link,useNavigate  } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 
 
@@ -17,11 +18,9 @@ function Login() {
 
     const [errMsg, setErrMsg] = useState("");
     const [success, setSuccess] = useState(false);
-    
-    const handleLogin = () => {
+    const navigate = useNavigate(); // Initialize useNavigate
 
-        window.location.reload(true);
-    };
+
 
     useEffect(() => {
         userRef.current.focus();
@@ -30,6 +29,16 @@ function Login() {
     useEffect(() => {
         setErrMsg("");
     }, [user, pwd]);
+
+    useEffect(() => {
+        if (success) {
+            const timer = setTimeout(() => {
+                navigate('/shop'); // Redirect to /shop after 5 seconds
+            }, 2000); // Wait for 2 seconds
+
+            return () => clearTimeout(timer); // Cleanup timer on component unmount
+        }
+    }, [success, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -71,23 +80,13 @@ function Login() {
         <Fragment>
             <div className={classes.all}><br></br><br></br><br></br>
                 {success ? (
-                    <section>
+                    <section  className={classes.loggedInMessage}>
                         <h1>You are logged in!</h1>
                         <br />
-                        <p>
-                           <span >  <Link to={"/Home"}>Go to Home</Link> </span>
-                           {/* remmber! remove the newHome Span***************************************************************************** */}
-                           <span >  <Link to={"/HomeNew"}>Go to the new Home</Link> </span>
-
-
-                        </p>
                         {sessionStorage.setItem('id', JSON.stringify(id))}
                         {sessionStorage.setItem('username', JSON.stringify(user))}
                         {sessionStorage.setItem('isActive', JSON.stringify(true))}
-
-                        
                     </section>
-
                 )
                     : (
                         <section>
@@ -96,7 +95,7 @@ function Login() {
                             </p>
                             <h1>Sign In</h1>
                             <form onSubmit={handleSubmit}>
-                                <label htmlFor="userName">User Name:</label>
+                                <label htmlFor="userName">Username:</label>
                                 <input
                                     className={classes.inputs}
                                     type="text"
@@ -138,5 +137,7 @@ function Login() {
 }
 
 export default Login;
+
+
 
 

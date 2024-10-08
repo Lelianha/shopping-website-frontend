@@ -43,6 +43,7 @@ function TempItem(props) {
       {showDetails && (
         <div className="details">
           <div className="restDiv">
+
             <h3>{props.item.title}</h3>
             <p>${props.item.price}</p>
             {props.item.inStock > 0 ? (
@@ -50,6 +51,7 @@ function TempItem(props) {
             ) : (
               <p id="outOfStock">Out of Stock</p>
             )}
+            
             <div className="icons">
               <span onClick={handleFavoriteToggle}>
                 {isHeart ? <FaHeart className="likeIcon" /> : <FaRegHeart className="likeIcon" />}

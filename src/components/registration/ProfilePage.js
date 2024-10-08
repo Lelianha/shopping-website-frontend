@@ -1,119 +1,126 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
-import { getAllUserItems} from "../../services/api";
+import { getAllUserItems, deleteUser, getUser, userLogOut } from "../../services/api";
 import FavoriteItem from "../../components/FavoriteItem";
 
 const ProfilePage = () => {
-  const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
-  const [favorites, setFavorites] = useState([]);
-  const [orders, setOrders] = useState([]);
+    const navigate = useNavigate();
+    const [userData, setUserData] = useState(null);
+    const [favorites, setFavorites] = useState([]);
+    const [orders, setOrders] = useState([]);
 
+    const fetchUserData = async (userId) => {
+        getUser(userId).then((res) => {
+            const { firstName = "FirstName not available", lastName = "LastName not available", username = "Username not available", email = "Email not available", phone = "Phone not available", address = {} } = res.data;
+            const { city = "City not available", country = "Country not available" } = address || {};
 
+            const user = {
+                name: `${firstName} ${lastName}`,
+                username: username,
+                email: email,
+                phone: phone,
+                address: `${city}, ${country}`,
+            };
 
-
-  // Simulate API calls
-  const fetchUserData = async (userId) => {
-    // Replace with actual API call
-    const data = {
-      name: 'John Doe',
-      username: 'johndoe',
-      email: 'john@example.com',
-      address: { city: 'New York', country: 'USA' }
+            setUserData(user);
+        });
     };
-    console.log(data)
-    setUserData(data);
-  };
-console.log(userData)
 
-  const fetchFavoriteItems = async (userItemsBody) => {
+    const fetchFavoriteItems = async (userItemsBody) => {
+        getAllUserItems(userItemsBody).then((res) => {
+            const item = res.data.map((userItem) => <FavoriteItem item={userItem} />);
+            setFavorites(item.slice(0, 3));
+        });
+    };
 
-        getAllUserItems(userItemsBody).then(
-            res => {
-                console.log(res)
-                const item = res.data.map((userItem) => {
-                        return (
-                     <FavoriteItem item={userItem} />
-                        )
-                }
-        )
-        setFavorites(item.slice(0, 3));
-            
+ 
+
+    const handleDeleteUser = async () => {
+        const userId = sessionStorage.getItem('id');
+
+        await deleteUser(userId);
+        sessionStorage.removeItem("id");
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("isActive");
+        navigate('/'); // Redirect to the home/shop page after deleting the user
+    };
+
+    const handleLogout = async () => {
+        const loggedInUserId = JSON.parse(sessionStorage.getItem("id"));
+        const userSecondBody = {
+            userId: loggedInUserId,
+            active: 0
+        };
+
+        await userLogOut(userSecondBody);
+        sessionStorage.removeItem("id");
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("isActive");
+        navigate('/'); // Redirect to the main page after logging out
+    };
+
+    useEffect(() => {
+        const userItemsBody = {
+            userId: JSON.parse(sessionStorage.getItem("id"))
+        };
+
+        const userId = sessionStorage.getItem('id');
+        if (userId) {
+            fetchUserData(userId);
+            fetchFavoriteItems(userItemsBody);
+        } else {
+            navigate('/login');
         }
-        );
-  };
-  const fetchOrders = async (userId) => {
-    // Replace with actual API call
-    const orders = ['Order 1', 'Order 2', 'Order 3', 'Order 4'];
-    setOrders(orders.slice(0, 3)); // Show first 3 orders
-  };
+    }, [navigate,favorites]);
 
-  const handleDeleteUser = async () => {
-    // Replace with actual API call to delete user
-    console.log('User deleted');
-  };
+    return (
+        <div className="profile-container">
+            {!userData ? (
+                <div className="login-signup">
+                    <button onClick={() => navigate('/login')} className="btn">Login</button>
+                    <button onClick={() => navigate('/signup')} className="btn">Sign Up</button>
+                </div>
+            ) : (
+                <div className="profile-content">
+                    <h2>Profile Information</h2>
+                    <p><strong>Name:</strong> {userData.name}</p>
+                    <p><strong>Username:</strong> {userData.username}</p>
+                    <p><strong>Email:</strong> {userData.email}</p>
+                    <p><strong>Phone:</strong> {userData.phone}</p>
+                    <p><strong>Address:</strong> {userData.address}</p>
 
-  const handleChangePassword = () => {
-    navigate('/changePassword');
-  };
+                    <br></br>
+                    <div className="list-container">
+                        <h3>Favorite List</h3>
+                        {favorites.length > 0 && ( // Show the arrow only if there are favorite items
+                            <div className="arrow" onClick={() => navigate('/favoriteItems')}>&rarr;</div>
+                        )}
+                        <ul className='rows'>
+                            {favorites.length > 0 ? (
+                                favorites.map((item, index) => (
+                                    <li  key={index}>{item}</li>
+                                ))
+                            ) : (
+                                <li className='masFav'>No favorite items</li> // Message when no favorites are available
+                            )}
+                        </ul>
+                       
+                    </div>
 
-  useEffect(() => {
-    const userItemsBody ={
-        userId: JSON.parse(sessionStorage.getItem("id"))
-     }
-    
-    const userId = sessionStorage.getItem('id');
-    if (userId) {
-      fetchUserData(userId);
-      fetchFavoriteItems(userItemsBody);
-      fetchOrders(userId);
-    } else {
-      navigate('/login');
-    }
-  }, [navigate]);
-
-  return (
-    <div className="profile-container">
-      {!userData ? (
-        <div className="login-signup">
-          <button onClick={() => navigate('/login')} className="btn">Login</button>
-          <button onClick={() => navigate('/signup')} className="btn">Sign Up</button>
+                    <div className="list-container">
+                        <h3>Order List</h3>
+                       
+                        <div className="arrow" onClick={() => navigate('/ordersList')}>&rarr;</div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <button className="btn" onClick={handleLogout}>Logout</button>
+                    <button className="btn delete-btn" onClick={handleDeleteUser}>Delete Account</button>
+                </div>
+            )}
         </div>
-      ) : (
-        <div className="profile-content">
-          <h2>Profile Information</h2>
-          <p><strong>Name:</strong> {userData.name}</p>
-          <p><strong>Username:</strong> {userData.username}</p>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>Address:</strong> {`${userData.address.city}, ${userData.address.country}`}</p>
-
-          <button className="btn" onClick={handleChangePassword}>Change Password</button>
-          <button className="btn delete-btn" onClick={handleDeleteUser}>Delete Account</button>
-
-          <div className="list-container">
-            <h3>Favorite List</h3>
-            <ul>
-              {favorites.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-            <div className="arrow" onClick={() => navigate('/favoriteItems')}>&rarr;</div>
-          </div>
-
-          <div className="list-container">
-            <h3>Order List</h3>
-            <ul>
-              {orders.map((order, index) => (
-                <li key={index}>{order}</li>
-              ))}
-            </ul>
-            <div className="arrow" onClick={() => navigate('/orderItems')}>&rarr;</div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default ProfilePage;

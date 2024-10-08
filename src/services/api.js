@@ -13,7 +13,6 @@ export const authenticate = (userBody) => {
     return axios.post(AUTHENTICATE(), userBody);
 }
 export const updateItem = (itemBody) => {
-    console.log(itemBody);
     return axios.put(`item/update/${itemBody.id}`,itemBody);
 };
 
@@ -25,7 +24,6 @@ export const createUserItem = (userItemBody) => {
     return axios.post(CREATE_NEW_USER_ITEM(), userItemBody);
 }
 export const getAllOrderIds = () => {
-    // console.log(userItemsBody);
     return axios.get(GET_ALL_IDS());
 }
 
@@ -34,7 +32,6 @@ export const deleteUserItem = (userItemBody) => {
 }
 
 export const createOrderItem = (orderItemBody) => {
-    // console.log(userItemsBody);
     return axios.post(CREATE_NEW_ORDER_ITEM(), orderItemBody);
 }
 
@@ -44,8 +41,12 @@ export const decOrderItemQuantity = (orderItemBody) => {
 
 
 export const updateUserActive = (userSecondBody) => {
-    // console.log(userSecondBody);
     return axios.put(`user/update/active/${userSecondBody.username}`, userSecondBody);
+}
+
+
+export const userLogOut = (userSecondBody) => {
+    return axios.put(`user/update/logout/${userSecondBody.userId}`, userSecondBody);
 }
 
 
@@ -60,20 +61,31 @@ export const getUser = (userId) => {
 } 
 
 export const getUserId = (userName) => {
-    // console.log(userItemsBody);
     return axios.get(`user/get/id/${userName}`);
 }
 
 export const getAllUserItems = (userItemsBody) => {
-    // console.log(userItemsBody);
     return axios.get(`userItems/getAll/${userItemsBody.userId}`);
 }
 
 export const getAllOrderItems = (orderId) => {
-    // console.log(userItemsBody);
     return axios.get(`orderItems/getAll/${orderId}`);
 }
 
+export const getItem = (itemId) => {
+    return axios.get(`item/get/${itemId}`);
+}
+
+export const getTempOrder = (userId) => {
+    return axios.get(`order/get/tempOrder/${userId}`);
+}
+export const getAllCloseOrders = (userId) => {
+    return axios.get(`order/getAll/CloseOrders/${userId}`);
+}
+
+export const getOrder = (orderId) => {
+    return axios.get(`order/get/${orderId}`);
+}
 export const getAllOrders = () => {
     return axios.get(GET_ALL_ORDERS());
 };
@@ -96,6 +108,11 @@ export const updateOrderStatus = (orderId) => {
     return axios.put(`order/update/status/${orderId}`);
 }
 export const deleteAllOrderItems = (orderItemsBody) => {
-    // console.log(userItemsBody);
     return axios.delete(`orderItems/delete/allItems/${orderItemsBody.orderId}`);
 }
+
+export const deleteUser = (userId) => {
+    return axios.delete(`user/delete/${userId}`);
+}
+
+

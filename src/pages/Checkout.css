@@ -1,0 +1,87 @@
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popupContent {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    width: 600px; /* Increase the width */
+    max-width: 90%; /* Ensure it looks good on smaller screens */
+    height: 400px;
+  }
+  
+  .popupContent h2 {
+    font-size: 1.8rem; /* Larger heading */
+    margin-bottom: 15px;
+  }
+  
+  .popupContent label {
+    font-size: larger; /* Increase label font size */
+
+  }
+  
+  .popupContent textarea {
+    width: 500px;
+    height: 80px; /* Make the textarea larger */
+    margin-bottom: 15px;
+    margin-top: 10px;
+
+    font-size:x-large; /* Larger text input */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .popupContent textarea::placeholder {
+    font-size: x-large; /* Adjust the size as needed */
+  }
+
+  
+  .popupContent p {
+    font-size:larger; /* Larger font for price and item count */
+    margin-bottom: 15px;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    justify-content: space-between; /* Better spacing between buttons */
+  }
+  
+  .confirmButton, .cancelButton {
+    padding: 10px 20px;
+    font-size: larger; /* Larger button text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .confirmButton {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .confirmButton:hover {
+    background-color: #45a049;
+  }
+  
+  .cancelButton {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .cancelButton:hover {
+    background-color: #d32f2f;
+  }
+  

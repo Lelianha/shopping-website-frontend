@@ -18,16 +18,6 @@ return (
 </div>
 
 {/* <p className="follow">Follow Us</p> */}
- <div>
-<p className="find">Find Us On</p>
-<span><SiTwitter id="twitterIcon"/> <div className="findIcons">Twitter</div></span>
-<br></br>
-<span><TiSocialLinkedin id="linkedInIcon"/> <div className="findIcons">Linkedin</div></span>
-<br></br>
-<span><FaFacebookF id="facebookIcon"/> <div className="findIcons">Facebook</div></span>
-<br></br>
-<span><SiInstagram id="instagramIcon"/> <div className="findIcons">Instagram</div></span>
-</div>
 
 <div>
 <p className="find">Find Us On</p>

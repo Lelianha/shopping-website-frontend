@@ -54,33 +54,4 @@
     margin-bottom: 300px;
   }
   
-  .empty {
-    animation: wiggle 2s linear infinite;
-  }
-  
-  @keyframes wiggle {
-    0%, 7% {
-      transform: rotateZ(0);
-    }
-    15% {
-      transform: rotateZ(-15deg);
-      color: #9268fb;
-    }
-    20% {
-      transform: rotateZ(10deg);
-    }
-    25% {
-      transform: rotateZ(-10deg);
-      color: #9268fb;
-    }
-    30% {
-      transform: rotateZ(6deg);
-    }
-    35% {
-      transform: rotateZ(-4deg);
-    }
-    40%, 100% {
-      transform: rotateZ(0);
-    }
-  }
-  
+ 

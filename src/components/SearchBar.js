@@ -1,33 +1,28 @@
-import React, { useState } from "react"
-import useOnclickOutside from "react-cool-onclickoutside"
-import  "../components/SearchBar.css";
+import React, { useState, useEffect } from "react";
+import useOnclickOutside from "react-cool-onclickoutside";
+import "../components/SearchBar.css";
 import { getAllItems } from "../services/api";
-import {  useEffect } from "react";
-import {MdSearch,MdClose} from "react-icons/md"
+import { MdSearch, MdClose } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+
 const SearchBar = () => {
-  const [searchStatus, setSearchStatus] = useState(false)
+  const [searchStatus, setSearchStatus] = useState(false);
   const [existingItems, setExistingItems] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
 
-  const [matchingItems, setMatchingItems] = useState([]);
-
-
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getAllItems().then(
-      res => {
-        const items = res.data.map(item => {
-          return ({
-            ...item
-          })
-        });
-        setExistingItems(items);
-
-      }
-    );
+    getAllItems().then((res) => {
+      const items = res.data.map((item) => {
+        return {
+          ...item,
+        };
+      });
+      setExistingItems(items);
+    });
   }, []);
-
 
   const handleFilter = (event) => {
     const searchWord = event.target.value;
@@ -35,7 +30,6 @@ const SearchBar = () => {
     const newFilter = existingItems.filter((value) => {
       return value.title.toLowerCase().includes(searchWord.toLowerCase());
     });
-
 
     if (searchWord === "") {
       setFilteredData([]);
@@ -50,106 +44,74 @@ const SearchBar = () => {
   };
 
   const writeInput = (value) => {
-    setWordEntered((value.title));
+    setWordEntered(value.title);
   };
-  
-  const handleKeyPress = (event, searchWord, value) => {
-    if (event.key === 'Enter') {
-      clearInput()
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // Navigate and pass filtered data
+      navigate(`/searchedItems`, { state: { items: filteredData } });
+      clearInput();  // Optionally clear the input after navigating
     }
-  }
+  };
 
   const toggle = () => {
-    setSearchStatus(!searchStatus)
-    clearInput()
-  }
+    setSearchStatus(!searchStatus);
+    clearInput();
+  };
 
-  const closeSearch = () => (searchStatus === true ? setSearchStatus(false) : null)
+  const closeSearch = () => (searchStatus === true ? setSearchStatus(false) : null);
 
   const ref = useOnclickOutside(() => {
-    closeSearch()
-    clearInput()
-  })
+    closeSearch();
+    clearInput();
+  });
 
   return (
     <>
-     <div  ref={ref} onKeyPress={handleKeyPress}>
-       <div
-        className={
-           searchStatus === true
-          ? "searchBar "
-          : ""
-      }
+      <div ref={ref} onKeyPress={handleKeyPress}>
+        <div className={searchStatus === true ? "searchBar " : ""}>
+          {searchStatus === true && (
+            <input
+              className={searchStatus === true ? "searchInput fadeIn" : searchStatus === false ? "searchInput fadeOut" : "searchInput"}
+              type="text"
+              value={wordEntered}
+              onChange={handleFilter}
+              placeholder="Search..."
+            />
+          )}
+          <div className={searchStatus === true ? "iconClose fadeOut" : searchStatus === false ? "iconSearch fadeIn" : "iconSearch"}>
+            {searchStatus !== true && filteredData.length === 0 ? (
+              <MdSearch className={searchStatus === true ? "searchIcon fadeOut" : searchStatus === false ? "searchIcon fadeIn" : "searchIcon"} onClick={toggle} />
+            ) : (
+              <MdClose className={searchStatus === true ? "closeIcon fadeOut" : searchStatus === false ? "closeIcon fadeIn" : "closeIcon"} onClick={toggle} />
+            )}
+
+            <div className="search">
+              {filteredData.length !== 0 && (
+                <div className="dataResult">
+                  {filteredData.slice(0, 15).map((value, key) => {
+                    return (
       
-       >
-        {searchStatus === true && (
-          <input
-             className={
-                 searchStatus === true
-                 ? "searchInput fadeIn"
-                 : searchStatus === false
-               ? "searchInput fadeOut"
-                : "searchInput"
-            }
-         type="text"
-         value={wordEntered}
-         onChange={handleFilter}
-         placeholder="Search..."
-           />
-
-        )}
-         <div
-           className={
-             searchStatus === true
-               ? "iconClose fadeOut"
-              : searchStatus === false
-              ? "iconSearch fadeIn"
-              : "iconSearch"
-          }
-         >
-          
-          {((searchStatus !== true)&& (filteredData.length === 0) ) ? (
-            <MdSearch 
-             className={
-            searchStatus === true
-              ? "searchIcon fadeOut"
-              : searchStatus === false
-               ? "searchIcon fadeIn"
-           : "searchIcon"
-           }  
-           onClick={toggle} />
-           ) : (
-             <MdClose onClick={toggle} className={
-                 searchStatus === true
-                  ? "closeIcon fadeOut"
-                   : searchStatus === false
-               ? "closeIcon fadeIn"
-                  : "closeIcon"
-              }  />
-          )} 
-
-<div className="search">
-      {filteredData.length != 0 && (
-        <div className="dataResult">
-          {filteredData.slice(0, 15).map((value, key) => {
-            return (
-              <a className="dataItem" href={value.link} target="_blank" onClick={()=>writeInput(value)}>
-                <p>{value.title} </p>
-              </a>
-            );
-          })}
+                    <div className="dataItem" key={key} onClick={() => {
+            writeInput(value);
+            navigate(`/searchedItems`, { state: { id: value.id, items: [value] } });
+            clearInput();  // Clear the search bar after clicking the title
+          }}>
+            <p>
+              {value.title}
+            </p>
+          </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      )}
-    </div> 
       </div>
-      </div>
-     </div>
+    </>
+  );
+};
 
- </>
-  )
-}
-
-export default SearchBar
-//note: I Should add code that if I click on the title that I wanted to search should 
-//hide the other title that includes the title words bur not equal them
-// and on click at the input see the search items if there are amd show no item founded with nice icom if there are not
+export default SearchBar;

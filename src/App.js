@@ -49,7 +49,7 @@ import React from "react";
 import './App.css';
 import Navbar from './components/NavBar'
 import Home from "./pages/Home";
-import OrderList from "./pages/OrderList";
+import OrdersList from "./pages/OrdersList";
 import FavoriteItems from "./pages/FavoriteItems";
 import TempFavoriteItems from "./pages/TempFavoriteItems";
 
@@ -60,6 +60,9 @@ import ThirdSearchBar from "./components/ThirdSearchBar";
 import TowTry from "./components/TwoTry";
 import Footer from './components/Footer';
 import Shop from './pages/Shop'
+import Items from './pages/Items'
+
+import SearchedItems from "./pages/SearchedItems";
 import Cart from './pages/Cart'
 
 import Register from "./components/registration/Register";
@@ -67,7 +70,7 @@ import Login from "./components/registration/Login";
 import Logout from "./components/registration/Logout";
 import Profile from "./components/registration/Profile";
 import ProfilePage from "./components/registration/ProfilePage";
-
+import OrderDetails from "./pages/OrderDetails"
 
 import TempOrder from "./components/TempOrder";
 
@@ -87,10 +90,15 @@ function App() {
 <div className="container">
     <Routes>
        <Route path="/" element={<Home/>}/>
-        <Route path="/orderList" element={<OrderList/>}/>
-     {/*  <Route path="/favoriteItems" element={<FavoriteItems/>}/>*/}
+        <Route path="/ordersList" element={<OrdersList/>}/>
+       <Route path="/favoriteItems" element={<FavoriteItems/>}/>
      <Route path="/TempFavoriteItems" element={<TempFavoriteItems/>}/>
        <Route path="/shop" element={<Shop/>}/>
+       <Route path="/items" element={<Items/>}/>
+       <Route path="/order-details/:id" element={<OrderDetails />} /> {/* New route for order details */}
+
+       <Route path="/searchedItems" element={<SearchedItems/>}/>
+
        <Route path="/cart" element={<Cart/>}/>
 
        <Route path="/tempOrder" element={<TempOrder />} />
@@ -103,7 +111,6 @@ function App() {
         
      {/*  <Route path="/deleteAccount" element={<DeleteAccount />} /> */}
 
-     
     </Routes>
 </div>
 <Footer />

@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect, Fragment } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +11,6 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 
-const REGISTER_URL = '/register';
 
 const Register = () => {
     const userRef = useRef();
@@ -52,13 +52,11 @@ const Register = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
-    // when component load we set the focus on the userInput top be on
     useEffect(() => {
         userRef.current.focus();
     }, [])
 
 
-    // every time the user state change we want to validate the user input with the regex
     useEffect(() => {
         setValidName(USER_REGEX.test(user));
     }, [user])
@@ -85,16 +83,6 @@ const Register = () => {
             return;
         }
         try {
-            // const newUserBody = {
-            //     firstName: firstN,
-            //     lastName: lastN,
-            //     email: userEmail,
-            //     username: user,
-            //     password: pwd,
-            //     phone: userPhone,
-            //     address: userAddress,
-            //     active: 0
-            // }
 
             const newUserBody = {
                 firstName: firstN,
@@ -104,16 +92,12 @@ const Register = () => {
                 password: pwd,
                 phone: userPhone,
                  address: {country:userCountry,city:userCity},
-                // addr: [userCountry,userCity],
-                // country:userCountry,
-                // city:userCity,
                 active: 0
             }
         
             const response = await createNewUser(newUserBody);
             setSuccess(true);
 
-            //clear state and controlled inputs
             setFirstN('');
             setLastN('');
             setUserEmail('');
@@ -122,8 +106,6 @@ const Register = () => {
             setMatchPwd('');
             setUserPhone('');
             setUserAddress('');
-            // setUserCountry('');
-            // setUserCity('');
 
         } catch (err) {
             if (!err.response) {
@@ -138,42 +120,6 @@ const Register = () => {
     }
 
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     // if button enabled with JS hack
-    //     const v1 = USER_REGEX.test(user);
-    //     const v2 = PWD_REGEX.test(pwd);
-    //     if (!v1 || !v2) {
-    //         setErrMsg("Invalid Entry");
-    //         return;
-    //     }
-
-    //         const newUserBody = {
-    //             firstName:firstN,
-    //             lastName:lastN,
-    //             email:userEmail,
-    //             username: user,
-    //             password: pwd,
-    //             phoone:userPhone,
-    //             address:userAddress,
-
-    //         }
-    //         const response = await createNewUser(newUserBody);
-    //         setSuccess(true);
-
-    //         //clear state and controlled inputs
-    //         setFirstN('');
-    //         setLastN('');
-    //         setUserEmail('');
-    //         setUser('');
-    //         setPwd('');
-    //         setMatchPwd('');
-    //         setUserPhone('');
-    //         setUserAddress('');
-
-    //  console.log(newUserBody);
-    // }
-
     return (
         <Fragment >
             <div className={classes.all}>
@@ -181,12 +127,16 @@ const Register = () => {
 
 
                 {success ? (
-                    <section>
-                        <h1>Success!</h1>
-                        <p>
-                            <Link to={"/login"}>Sign In</Link>
-                        </p>
-                    </section>
+                    <section className={classes.successContainer}>
+                    <h1 className={classes.successTitle}>Success!</h1>
+                    <p className={classes.successMessage}>
+                        Your account has been created successfully.
+                    </p>
+                    <p >
+                        <Link to={"/login"} className={classes.signInLink}>Sign In</Link>
+                    </p>
+                </section>
+                
                 ) : (
                     <section >
 
@@ -194,57 +144,43 @@ const Register = () => {
                         <h1>Register</h1>
                         <form onSubmit={handleSubmit}>
 
-                            <label htmlFor="firstname">
-                                First Name:
-                            </label>
-                      
-                            <input
-                                className={classes.inputs}
-                                type="text"
-                                id="firstname"
-                                placeholder="FirstName"
-                                ref={userRef}
-                                autoComplete="off"
-                                onChange={(e) => setFirstN(e.target.value)}
-                                value={firstN}
-                                required
-                                onFocus={() => setFirstNFocus(true)}
-                                onBlur={() => setFirstNFocus(false)}
-                            />
-                                  <label htmlFor="lastname">
-                                Last Name:
-                            </label>
-                            <input
-                                className={classes.inputs} 
-                                type="text"
-                                id="lastname"
-                                placeholder="LastName"
-                                ref={userRef}
-                                autoComplete="off"
-                                onChange={(e) => setLastN(e.target.value)}
-                                value={lastN}
-                                required
-                                onFocus={() => setLastNFocus(true)}
-                                onBlur={() => setLastNFocus(false)}
-                            />
+                        <div className={classes.nameContainer}>
+    <label htmlFor="fullname">
+        Full Name:
+    </label>
+</div>
+<div className={classes.inputFields}>
+    <input
+        className={`${classes.inputs} ${classes.firstLastInput}`} // Add the class here
+        type="text"
+        id="firstname"
+        placeholder="First Name"
+        ref={userRef}
+        autoComplete="off"
+        onChange={(e) => setFirstN(e.target.value)}
+        value={firstN}
+        required
+        onFocus={() => setFirstNFocus(true)}
+        onBlur={() => setFirstNFocus(false)}
+    />
 
-                            {/* <label htmlFor="lastname">
-                                Last Name:
-                            </label> */}
-                            {/* <input
-                                className={classes.inputs}
-                                type="text"
-                                id="lastname"
-                                placeholder="LastName"
-                                ref={userRef}
-                                autoComplete="off"
-                                onChange={(e) => setLastN(e.target.value)}
-                                value={lastN}
-                                required
-                                onFocus={() => setLastNFocus(true)}
-                                onBlur={() => setLastNFocus(false)}
-                            /> */}
+    <input
+        className={`${classes.inputs} ${classes.firstLastInput}  ${classes.secondInput}`} // Add the class here
+        type="text"
+        id="lastname"
+        placeholder="Last Name"
+        ref={userRef}
+        autoComplete="off"
+        onChange={(e) => setLastN(e.target.value)}
+        value={lastN}
+        required
+        onFocus={() => setLastNFocus(true)}
+        onBlur={() => setLastNFocus(false)}
+    />
+</div>
 
+
+         
                             <label htmlFor="useremail">
                                 Email:
                             </label>
@@ -262,10 +198,6 @@ const Register = () => {
                             />
 
 
-
-                            {/* <p ref={errRef} className={errMsg ? classes.errmsg : classes.offscreen}>{errMsg}</p>
-                    <h1>Register</h1> */}
-                            {/* <form onSubmit={handleSubmit}> */}
                             <label htmlFor="username">
                                 Username:
                                 <FontAwesomeIcon icon={faCheck} className={validName ? classes.valid : classes.hide} />
@@ -280,9 +212,7 @@ const Register = () => {
                                 onChange={(e) => setUser(e.target.value)}
                                 value={user}
                                 required
-                                // when user focus on the input we want to set the userFocus to true
                                 onFocus={() => setUserFocus(true)}
-                                // when user leave the input (blur) we want to set the userFocus to false
                                 onBlur={() => setUserFocus(false)}
                             />
                             <p id="uidnote" className={userFocus && user && !validName ? classes.instructions : classes.offscreen}>
@@ -309,7 +239,6 @@ const Register = () => {
                             />
                             <p id="pwdnote" className={pwdFocus && !validPwd ? classes.instructions : classes.offscreen}>
                                 <FontAwesomeIcon icon={faInfoCircle} />  <br></br>
-
                                 8 to 24 characters.<br />
                                 Must include uppercase and lowercase letters, a number and a special character.<br />
                                 Allowed special characters: <span>!</span> <span aria-label="at symbol">@</span> <span>#</span> <span>$</span> <span>%</span>
@@ -353,65 +282,58 @@ const Register = () => {
                                 onBlur={() => setUserPhoneFocus(false)}
                             />
 
-                            {/* <label htmlFor="useraddress">
-                                Address:
-                            </label>
-                            <input
-                                className={classes.inputs}
-                                type="text"
-                                id="useraddress"
-                                ref={userRef}
-                                autoComplete="off"
-                                onChange={(e) => setUserAddress(e.target.value)}
-                                value={userAddress}
-                                required
-                                onFocus={() => setUserAddressFocus(true)}
-                                onBlur={() => setUserAddressFocus(false)}
-                            /> */}
 
 <label htmlFor="usercountry">
-                                Country:
-                            </label>
-                            <input
-                                className={classes.inputs}
-                                type="text"
-                                id="usercountry"
-                                ref={userRef}
-                                autoComplete="off"
-                                onChange={(e) => setUserCountry(e.target.value)}
-                                value={userCountry}
-                                required
-                                onFocus={() => setUserCountryFocus(true)}
-                                onBlur={() => setUserCountryFocus(false)}
-                            />
+    Address:
+</label>
+<div className={classes.inputFields}>
 
-<label htmlFor="usercity">
-                                City:
-                            </label>
-                            <input
-                                className={classes.inputs}
-                                type="text"
-                                id="usercity"
-                                ref={userRef}
-                                autoComplete="off"
-                                onChange={(e) => setUserCity(e.target.value)}
-                                value={userCity}
-                                required
-                                onFocus={() => setUserCityFocus(true)}
-                                onBlur={() => setUserCityFocus(false)}
-                            />
+
+<input
+        className={`${classes.inputs} ${classes.cityCountryInput}`} // Add the class here
+        type="text"
+        id="usercity"
+        placeholder="City"
+        ref={userRef}
+        autoComplete="off"
+        onChange={(e) => setUserCity(e.target.value)}
+        value={userCity}
+        required
+        onFocus={() => setUserCityFocus(true)}
+        onBlur={() => setUserCityFocus(false)}
+    />
+
+    <input
+        className={`${classes.inputs} ${classes.cityCountryInput}  ${classes.secondInput}`} // Add the class here
+        type="text"
+        id="usercountry"
+        placeholder="Country"
+        ref={userRef}
+        autoComplete="off"
+        onChange={(e) => setUserCountry(e.target.value)}
+        value={userCountry}
+        required
+        onFocus={() => setUserCountryFocus(true)}
+        onBlur={() => setUserCountryFocus(false)}
+    />
+</div>
+
 
 
 
                             <button className={classes.btnsignup} disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
                         </form>
+
+
                         <p>
-                            Already registered?<br />
-                            <span className={classes.line}>
-                                {/*put router link here*/}
-                                <Link to={"/login"}>Sign In</Link>
-                            </span>
-                        </p>
+    <span>Already registered?</span>
+    <span className={classes.line}>
+        <Link to={"/login"}>Sign In</Link>
+    </span>
+</p>
+
+
+                       
                     </section>
                 )}
             </div>
