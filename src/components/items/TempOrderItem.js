@@ -1,58 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { FiPlus, FiMinus } from "react-icons/fi";
-import { AiFillShopping } from "react-icons/ai";
-import { deleteUserItem, createUserItem, createOrderItem, decOrderItemQuantity } from "../services/api";
+import { deleteUserItem, createUserItem, createOrderItem, decOrderItemQuantity } from "../../services/api";
 
 import "./TempOrderItem.css";
 
 function TempOrderItem(props) {
   const [isHeart, setIsHeart] = useState(false);
+
   useEffect(() => {
+    // Check if the item is in favorites
     if (props.favorites.includes(props.item.id)) {
       setIsHeart(true);
+    } else {
+      setIsHeart(false);
     }
   }, [props.favorites, props.item.id]);
 
-  const changeHeart = () => {
-    setIsHeart(!isHeart);
-    if (!isHeart) {
-      addItemToFavorite();
+  const changeHeart = async () => {
+    // Toggle the heart state
+    const currentHeartState = isHeart;
+    setIsHeart(!currentHeartState); // Optimistically update the UI
+
+    if (currentHeartState) {
+      await removeItemFromFavorite();
     } else {
-      removeItemFromFavorite();
+      await addItemToFavorite();
     }
   };
 
-  const addItemToFavorite = () => {
+  const addItemToFavorite = async () => {
     const UserItemsToCreate = {
       userId: JSON.parse(sessionStorage.getItem("id")),
       userItemId: props.item.id,
     };
-    createUserItem(UserItemsToCreate);
+    await createUserItem(UserItemsToCreate); // Await the API call
   };
 
-  const removeItemFromFavorite = () => {
+  const removeItemFromFavorite = async () => {
     const UserItemToDelete = {
       userId: JSON.parse(sessionStorage.getItem("id")),
       itemId: props.item.id,
     };
-    deleteUserItem(UserItemToDelete);
+    await deleteUserItem(UserItemToDelete); // Await the API call
   };
 
-  const buyItem = () => {
+  const buyItem = async () => {
     const orderItemToCreate = {
       userId: JSON.parse(sessionStorage.getItem("id")),
       orderItemId: props.item.id,
     };
-    createOrderItem(orderItemToCreate);
+    await createOrderItem(orderItemToCreate); // Await the API call
   };
 
-  const decItemQuantity = () => {
+  const decItemQuantity = async () => {
     const orderItemToDec = {
       orderId: props.tempOrder.id,
       ItemsId: props.item.id,
     };
-    decOrderItemQuantity(orderItemToDec);
+    await decOrderItemQuantity(orderItemToDec); // Await the API call
   };
 
   return (
@@ -62,9 +68,7 @@ function TempOrderItem(props) {
         <div className="restDiv">
           <div>{props.item.title}</div>
           <br />
-
           <div>$ {props.item.price} </div>
-
           <br />
           <div>
             {props.item.inStock > 0 ? (

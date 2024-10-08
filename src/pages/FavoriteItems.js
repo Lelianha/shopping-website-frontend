@@ -2,7 +2,7 @@ import React from "react";
 import  "./FavoriteItems.css";
 import { useState , useEffect } from "react";
 import { getAllUserItems} from "../services/api";
-import FavoriteItem from "../components/FavoriteItem";
+import FavoriteItem from "../components/items/FavoriteItem";
 import { TbMoodEmpty } from "react-icons/tb";
 
 function FavoriteItems () {

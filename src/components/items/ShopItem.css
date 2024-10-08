@@ -59,6 +59,7 @@
   }
   
   .likeIcon {
+    margin-left: 170px;
     font-size: 24px;
     cursor: pointer;
     margin-right: 10px; /* Add some space between the heart and cart icons */
@@ -66,6 +67,7 @@
   
   .availableCartIcon,
   .unavailableCartIcon {
+    margin-left: 210px;
     font-size: 24px;
     cursor: pointer;
     margin-left: 50px; /* Reduce space between icons */

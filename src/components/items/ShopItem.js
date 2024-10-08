@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
-import classes from "./TempItem.css";
+import "./ShopItem.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { AiOutlineShopping, AiFillShopping } from "react-icons/ai";
-import { createUserItem, deleteUserItem, createOrderItem } from "../services/api";
+import { createUserItem, deleteUserItem, createOrderItem } from "../../services/api";
 
-function TempItem(props) {
+function ShopItem(props) {
   const [isHeart, setIsHeart] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     if (props.favorites.includes(props.item.id)) {
       setIsHeart(true);
+    } else {
+      setIsHeart(false);
     }
   }, [props.favorites, props.item.id]);
 
-  const handleFavoriteToggle = () => {
+  const handleFavoriteToggle = async () => {
     const userId = JSON.parse(sessionStorage.getItem("id"));
+    
     if (JSON.parse(sessionStorage.getItem("isActive"))) {
       if (isHeart) {
-        deleteUserItem({ userId, itemId: props.item.id });
+        await deleteUserItem({ userId, itemId: props.item.id });
       } else {
-        createUserItem({ userId, userItemId: props.item.id });
+        await createUserItem({ userId, userItemId: props.item.id });
       }
-      setIsHeart(!isHeart);
+      setIsHeart(!isHeart); // Toggle heart state after API call
     }
   };
 
@@ -43,7 +46,6 @@ function TempItem(props) {
       {showDetails && (
         <div className="details">
           <div className="restDiv">
-
             <h3>{props.item.title}</h3>
             <p>${props.item.price}</p>
             {props.item.inStock > 0 ? (
@@ -73,4 +75,4 @@ function TempItem(props) {
   );
 }
 
-export default TempItem;
+export default ShopItem;

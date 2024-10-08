@@ -43,12 +43,11 @@
 }
 
 .likeIcon {
+    margin-left: 10px;
     cursor: pointer;
     font-size: 24px;
     color: #ff4d4d;
-    transition: color 0.3s ease;
 }
-
 .likeIcon:hover {
     color: #ff0000;
 }

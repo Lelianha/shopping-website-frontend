@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
-import Navbar from "../components/Try";
+import { Link } from "react-router-dom"; 
 import "./OrdersList.css";
 import { getAllCloseOrders } from "../services/api";
 

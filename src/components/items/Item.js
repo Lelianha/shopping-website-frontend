@@ -1,27 +1,19 @@
 import React, { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { AiOutlineShopping, AiFillShopping } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";  // For navigation
-import classes from "./TempItem.css";
+import { useNavigate } from "react-router-dom";  
+import "./Item.css";
 
 function Item(props) {
   const [showDetails, setShowDetails] = useState(false);
 
-  const navigate = useNavigate();  // To navigate between pages
-
-
-
-
-
-
-  // Function to show the alert with log in / sign up option
+  const navigate = useNavigate();  
   const logAlert = () => {
     const userResponse = window.confirm(
       'You need to log in or sign up to purchase items. Do you want to log in or sign up now?'
     );
     if (userResponse) {
-      // Redirect the user to the login page (or signup page based on their choice)
-      navigate("/login");  // Navigate to the login page
+      navigate("/login");  
     }
   };
 

@@ -1,20 +1,12 @@
 
 import React from "react";
-import { getAllItems } from "../services/api";
-import { useState , useEffect } from "react";
 import  "./Home.css";
-import { FaHeart,FaRegHeart } from "react-icons/fa";
-import { AiOutlineShopping, AiFillShopping } from "react-icons/ai";
-// import {BsCartPlus} from "bootstrap-icons";
-import FavoriteItems from "./FavoriteItems";
 import {Link , useMatch , useResolvedPath} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 
 function Home(){
   const navigate = useNavigate();
-
-
 
     return (
 

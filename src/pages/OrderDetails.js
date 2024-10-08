@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOrder, getAllOrderItems } from "../services/api"; // Ensure these functions are correctly imported
-import CloseItem from "../components/CloseItem"; // Import TempOrderItem component
-import "./OrderDetails.css"; // Import the CSS file
+import { getOrder, getAllOrderItems } from "../services/api"; 
+import CloseItem from "../components/items/CloseItem"; 
+import "./OrderDetails.css";
 
 function OrderDetails() {
-    const { id } = useParams(); // Get the order ID from the URL
-    const [orderDetails, setOrderDetails] = useState(null); // State to store order details
-    const [orderItems, setOrderItems] = useState([]); // State to store order items
+    const { id } = useParams(); 
+    const [orderDetails, setOrderDetails] = useState(null);
+    const [orderItems, setOrderItems] = useState([]); 
   
     
     useEffect(() => {
-        // Fetch the order details based on the order ID
         getOrder(id)
             .then(res => {
-                setOrderDetails(res.data); // Assuming the order details are in res.data
-                return getAllOrderItems(res.data.id); // Fetch all order items for this order
+                setOrderDetails(res.data); 
+                return getAllOrderItems(res.data.id); 
             })
             .then(res => {
-                console.log(res.data)
-                setOrderItems(res.data); // Assuming the order items are in res.data
+                setOrderItems(res.data); 
             })
             .catch(error => {
                 console.error("Error fetching order details or items:", error);
@@ -27,7 +25,7 @@ function OrderDetails() {
     }, [id]);
 
 
-    if (!orderDetails) return <p className="loading">Loading...</p>; // Show loading while fetching data
+    if (!orderDetails) return <p className="loading">Loading...</p>; 
 
     return (
         <div className="order-details-container">

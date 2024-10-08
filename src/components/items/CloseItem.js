@@ -1,12 +1,7 @@
-import React, { useState } from "react";
-import { FaRegHeart } from "react-icons/fa";
-import { AiOutlineShopping, AiFillShopping } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";  // For navigation
-import classes from "./CloseItem.css";
+import React from "react";
+import "./CloseItem.css";
 
 function CloseItem(props) {
-
-  // Function to show the alert with log in / sign up option
 
   
   return (

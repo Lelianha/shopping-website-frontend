@@ -230,11 +230,6 @@
     font-size: xx-large;
     color: gray;
     }
-  .ShoppingWebsitePicture{  background-image: url("../images/ShoppingWebsitePicture.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 600px;
-  }
   .shopButton{
     border: 3px solid #4606e8;
     font-size: larger;

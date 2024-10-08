@@ -17,7 +17,6 @@ return (
 <p className="slo">It was created with<br></br> your mood in mind</p>
 </div>
 
-{/* <p className="follow">Follow Us</p> */}
 
 <div>
 <p className="find">Find Us On</p>
@@ -39,16 +38,11 @@ return (
 </div>
  
     </footer>
-
     </>
- 
 )
  
       }
  
- 
-
-
 function CustomLink({to , children , ...props}){
   const resolvedPath=useResolvedPath(to)
   const isActive=useMatch({path:resolvedPath.pathname , end:true});

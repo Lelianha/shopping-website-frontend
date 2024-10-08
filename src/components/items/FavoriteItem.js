@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { AiOutlineShopping, AiFillShopping } from "react-icons/ai";
-import { deleteUserItem, createOrderItem } from "../services/api";
+import { deleteUserItem, createOrderItem } from "../../services/api";
 import './FavoriteItem.css'; // Import TempItem.css for consistent styling
 
 function FavoriteItem(props) {
-    const [isHeart, setIsHeart] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
 
     const removeItemFromFavorite = () => {

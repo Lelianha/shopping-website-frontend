@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Shop.css";
 import { getAllItems, getAllUserItems, getAllOrderItems, getAllOrders, getAllUsers } from "../services/api";
-import ShopItem from "../components/ShopItem";
+import ShopItem from "../components/items/ShopItem";
 
 function Shop() {
     const [allItems, setAllItems] = useState([]);
     const [itemsDetails, setItemsDetails] = useState([]);
-
     const [arrOfFavoraties, setArrOfFavoraties] = useState([]);
     const [currentItems, setCurrentItems] = useState([]);
     const [arrOrderItems, setArrOrderItems] = useState([]);

@@ -115,4 +115,3 @@ export const deleteUser = (userId) => {
     return axios.delete(`user/delete/${userId}`);
 }
 
-

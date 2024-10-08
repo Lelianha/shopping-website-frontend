@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
 import { getAllUserItems, deleteUser, getUser, userLogOut } from "../../services/api";
-import FavoriteItem from "../../components/FavoriteItem";
+import FavoriteItem from "../items/FavoriteItem";
 
 const ProfilePage = () => {
     const navigate = useNavigate();

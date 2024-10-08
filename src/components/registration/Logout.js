@@ -1,16 +1,10 @@
 
-import React, { useRef, useState, useEffect, Fragment, useContext } from "react";
-import classes from "./Logout.css";
-import { authenticate, updateUserActive,userLogOut} from "../../services/api";
+import React from "react";
+import "./Logout.css";
+import {userLogOut} from "../../services/api";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
-import AuthContext from "../context/AuthProvider";
 
 function Logout() {
-  // const { setAuth } = useContext(AuthContext);
-
-  // const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  // var loggedInUserName = JSON.parse(localStorage.getItem("username"))
   var loggedInUserId = JSON.parse(sessionStorage.getItem("id"))
 
   const userSecondBody = {
@@ -20,15 +14,9 @@ function Logout() {
 
   userLogOut(userSecondBody);
 
-
-
-  // setAuth(response.data.jwt)
-
-  // };
   return (
     <>
        <Link to="/" > <h2 class="homeS"> Go To Main Page </h2></Link> 
-      {/* {localStorage.setItem('isActive', JSON.stringify(false))} */}
       {sessionStorage.setItem('isActive', JSON.stringify(false))}
 
     </>

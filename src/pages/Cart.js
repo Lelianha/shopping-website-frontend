@@ -3,24 +3,23 @@ import {
   getTempOrder,
   getAllOrderItems,
   getAllUserItems,
-  deleteAllOrderItems,
   deleteOrder,
   updateOrderStatus,
   updateOrderShippingAddress,
 } from "../services/api";
-import Checkout from "../pages/Checkout"; // Import the new popup component
+import Checkout from "../pages/Checkout"; 
 import "./Cart.css";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import { AiOutlineShopping } from "react-icons/ai";
-import TempOrderItem from "../components/TempOrderItem";
+import TempOrderItem from "../components/items/TempOrderItem";
 
 function Cart() {
-  const [tempOrder, setTempOrder] = useState(null); // to store the TEMP order
-  const [currentItems, setCurrentItems] = useState([]); // to store order items
-  const [existingItems, setExistingItems] = useState([]); // to store user's existing items
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // State to manage popup visibility
-  const userId = JSON.parse(sessionStorage.getItem("id")); // get user ID from session
-  const isActive = JSON.parse(sessionStorage.getItem("isActive")); // get user activity status from session
+  const [tempOrder, setTempOrder] = useState(null); 
+  const [currentItems, setCurrentItems] = useState([]); 
+  const [existingItems, setExistingItems] = useState([]); 
+  const [isPopupOpen, setIsPopupOpen] = useState(false); 
+  const userId = JSON.parse(sessionStorage.getItem("id")); 
+  const isActive = JSON.parse(sessionStorage.getItem("isActive")); 
 
   const userItemsBody = {
     userId: userId,
@@ -38,52 +37,43 @@ function Cart() {
               : null
           );
   
-          // Fetch the items for the TEMP order if it exists
           if (tempOrder && tempOrder.id) {
             return getAllOrderItems(tempOrder.id);
           } else {
-            // Return an empty array if there is no TEMP order
             return Promise.resolve({ data: [] });
           }
         })
         .then((res) => {
-          console.log(res.data)
           const orderItems = res.data.map((item) => (
             <TempOrderItem key={item.id} item={item} favorites={existingItems} tempOrder={tempOrder} />
           ));
-          setCurrentItems(orderItems); // Set the items for the TEMP order
+          setCurrentItems(orderItems); 
         
-          // Fetch user's existing items (e.g., favorite or previously ordered items)
           return getAllUserItems(userItemsBody);
         })
         .then((res) => {
           const favorites = res.data.map((userItem) => userItem.id);
-          setExistingItems(favorites); // Set user's existing items
+          setExistingItems(favorites); 
         })
         .catch((err) => console.error("An error occurred", err));
     }
   }, [userId, isActive,currentItems]);
   
   
-  // Function to handle the checkout process
   const handleCheckout = () => {
     if (tempOrder) {
-      setIsPopupOpen(true); // Open the popup
+      setIsPopupOpen(true); 
     }
   };
 
-  // Function to confirm the order and update the status
   const confirmOrder = (shippingAddress) => {
     const orderShippingAddress = { shippingAddress };
 
-    // Update order shipping address
     updateOrderShippingAddress(tempOrder.id, orderShippingAddress)
       .then(() => {
-        // After updating the shipping address, change the order status to CLOSE
         return updateOrderStatus(tempOrder.id);
       })
       .then(() => {
-        // Close the popup after confirming the order
         setIsPopupOpen(false);
       })
       .catch((error) => {
@@ -92,13 +82,10 @@ function Cart() {
       });
   };
 
-  // Function to delete the entire order
-// Function to delete the entire order
 const orderDelete = () => {
   const orderToDelete = { id: tempOrder.id };
   deleteOrder(orderToDelete)
     .then(() => {
-      // After successfully deleting the order, update the state
       setTempOrder(null); // Set the TEMP order to null
       setCurrentItems([]); // Clear the current items
     })
@@ -114,18 +101,11 @@ const orderDelete = () => {
       {/* Check if there are no TEMP orders */}
       {tempOrder === null ? (
         <>
-        <br/>
-         <br/>
-         <br/>
-          <br/>
-          <br/>
-         <br/>
-         <br/>
-          <br/>
+        <br/><br/> <br/><br/> <br/> <br/> <br/> <br/>
+
           <h3 id="temp" style={{ textAlign: "center" }}>YOUR CART IS EMPTY</h3>
           <h1 id="cartEmpty"><AiOutlineShopping /></h1>
-          <br/>
-          <br/>
+          <br/>  <br/>
           <Link to="/shop" className="shopLink">
             <button className="shopButton">Shop Now</button>
           </Link>
@@ -147,7 +127,6 @@ const orderDelete = () => {
           </div>
         </>
       )}
-      {/* Render the CheckoutPopup component */}
       <Checkout
         isOpen={isPopupOpen}
         onClose={() => setIsPopupOpen(false)} // Close popup function

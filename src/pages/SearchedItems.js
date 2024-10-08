@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getAllItems, getAllUserItems, getAllOrderItems, getAllOrders, getItem, userStatus } from "../services/api";
-import TempItem from "../components/ShopItem";
-import Item from "../components/Item"; // Assuming you have an Item component
+import { getAllUserItems, getAllOrderItems, getAllOrders, getItem, userStatus } from "../services/api";
+import TempItem from "../components/items/ShopItem";
+import Item from "../components/items/Item"; 
 import { useLocation } from "react-router-dom";
 import "./Shop.css";
 
